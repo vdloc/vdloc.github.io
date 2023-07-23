@@ -5,8 +5,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        body: ["Futura", "sans-serif"],
-        heading: ["Futura", "sans-serif"],
+        body: ["Space Grotesk", "sans-serif"],
+        heading: ["Space Grotesk", "sans-serif"],
       },
       colors: {
         transparent: "transparent",

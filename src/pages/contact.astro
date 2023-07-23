@@ -1,0 +1,35 @@
+---
+import PageMeta from "src/components/PageMeta.astro";
+import { SITE_TITLE } from "src/config";
+import PageLayout from "src/layouts/PageLayout.astro";
+---
+
+<PageLayout>
+  <PageMeta title={`Contact | ${SITE_TITLE}`} slot="meta" />
+
+  <section slot="main" class="mt-6">
+    <form
+      action="https://formspree.io/f/mpzgwagn"
+      method="POST"
+      class="space-y-4"
+    >
+      <div class="">
+        <label for="email">Your email:</label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          class="block mt-4"
+          required
+        />
+      </div>
+      <div>
+        <label for="message">Your message:</label>
+        <textarea name="message" id="message" class="block mt-4" required
+        ></textarea>
+      </div>
+      <!-- your other form fields go here -->
+      <button type="submit" class="mt-4">Send</button>
+    </form>
+  </section>
+</PageLayout>

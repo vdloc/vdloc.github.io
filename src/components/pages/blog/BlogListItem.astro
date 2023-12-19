@@ -1,0 +1,32 @@
+---
+import { getFormattedDate } from '@utils/index';
+import ExternalBlogLink from './ExternalBlogLink.astro';
+import InternalBlogLink from './InternalBlogLink.astro';
+
+const { post } = Astro.props;
+const {
+  frontmatter: { title, url, external, date },
+  slug,
+} = post;
+
+const formattedDate = getFormattedDate(date);
+---
+
+<li
+  class='grid grid-cols-[1fr] md:grid-cols-[1fr_auto] mb-3 md:gap-2 items-start'
+>
+  <div class='title'>
+    {
+      external ? (
+        <ExternalBlogLink url={url} title={title} />
+      ) : (
+        <InternalBlogLink slug={slug} title={title} />
+      )
+    }
+  </div>
+  <div class='text-text-muted text-sm italic pt-1'>
+    <time datetime={date.toISOString()}>
+      {formattedDate}
+    </time>
+  </div>
+</li>

@@ -1,0 +1,78 @@
+<div id='image-track'>
+  <img
+    class='image'
+    src='https://source.unsplash.com/random/1200×900/?foo=1'
+    alt=''
+  />
+  <img
+    class='image'
+    src='https://source.unsplash.com/random/1200×900/?foo=2'
+    alt=''
+  />
+  <img
+    class='image'
+    src='https://source.unsplash.com/random/1200×900/?foo=3'
+    alt=''
+  />
+  <img
+    class='image'
+    src='https://source.unsplash.com/random/1200×900/?foo=4'
+    alt=''
+  />
+  <img
+    class='image'
+    src='https://source.unsplash.com/random/1200×900/?foo=5'
+    alt=''
+  />
+  <img
+    class='image'
+    src='https://source.unsplash.com/random/1200×900/?foo=6'
+    alt=''
+  />
+  <img
+    class='image'
+    src='https://source.unsplash.com/random/1200×900/?foo=7'
+    alt=''
+  />
+  <img
+    class='image'
+    src='https://source.unsplash.com/random/1200×900/?foo=8'
+    alt=''
+  />
+  <img
+    class='image'
+    src='https://source.unsplash.com/random/1200×900/?foo=9'
+    alt=''
+  />
+  <img
+    class='image'
+    src='https://source.unsplash.com/random/1200×900/?foo=10'
+    alt=''
+  />
+</div>
+
+<style lang='less'>
+  body {
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    margin: 0rem;
+    overflow: hidden;
+  }
+
+  #image-track {
+    display: flex;
+    gap: 4vmin;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(0, -50%);
+
+    img {
+      width: 40vmin;
+      height: 56vmin;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+</style>

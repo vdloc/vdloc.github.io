@@ -2,7 +2,7 @@
 title: Vdloc.Github.Io
 timezone: UTC
 collections:
-  content:
+  content-blog:
     title: Posts
     output: true
   posts:

@@ -37,5 +37,6 @@
     "@studio-freight/lenis": "^1.0.33",
     "prettier-plugin-astro": "^0.7.2",
     "typescript": "^4.9.4"
-  }
+  },
+  "packageManager": "yarn@4.4.0"
 }

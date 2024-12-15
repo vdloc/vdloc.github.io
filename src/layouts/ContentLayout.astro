@@ -29,7 +29,7 @@ const formattedDate = new Date(date).toLocaleDateString("en-us", {
 
 <!DOCTYPE html>
 <html class="theme-bubblegum" lang="en">
-  <head>
+  <>
     <!-- Global Metadata -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -39,6 +39,7 @@ const formattedDate = new Date(date).toLocaleDateString("en-us", {
     <GoogleFont />
     <ThemeScript />
     <FontAwesome />
+    <slot name="head-additional"/>
   </head>
 
   <body
@@ -74,5 +75,6 @@ const formattedDate = new Date(date).toLocaleDateString("en-us", {
         grid-area: main;
       }
     </style>
+    <slot name="body-additional"/>
   </body>
 </html>

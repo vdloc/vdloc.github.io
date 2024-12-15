@@ -1,0 +1,20 @@
+.playwrite-vn-guides-regular {
+  font-family: 'Playwrite VN Guides', cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.cards {
+  display: flex;
+}
+
+.card {
+  width: 6rem;
+  aspect-ratio: 2/3;
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}

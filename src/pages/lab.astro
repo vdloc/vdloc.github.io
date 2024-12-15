@@ -12,12 +12,13 @@ const posts = await readAll({
 });
 
 const sortedPosts = sortPostsByDate(posts);
+
 ---
 
 <PageLayout>
   <PageMeta title={`Experimetal Lab | ${SITE_TITLE}`} slot='meta' />
   <section slot='main'>
-    <ul>
+    <ul class="grid md:gap-4">
       {
         sortedPosts.map((post) => {
           const formattedDate = new Date(
@@ -28,8 +29,8 @@ const sortedPosts = sortPostsByDate(posts);
             day: 'numeric',
           });
           return (
-            <li class='grid grid-cols-[1fr] md:grid-cols-[1fr_auto] mb-3 md:gap-2 items-start'>
-              <div class='title'>
+            <li class='grid grid-cols-[1fr] md:grid-cols-[1fr_auto] mb-8 md:gap-16 items-start'>
+              <div class='title max-w-[46ch]'>
                 {post.frontmatter.external ? (
                   <a
                     href={post.frontmatter.url}
@@ -59,6 +60,9 @@ const sortedPosts = sortPostsByDate(posts);
                     {post.frontmatter.title}
                   </a>
                 )}
+                <div class="mt-1">
+                  <p class="text-xs leading-normal">{post.frontmatter.description}</p>
+                </div>
               </div>
               <div class='text-text-muted text-sm italic pt-1'>
                 <time datetime={post.frontmatter.date.toISOString()}>

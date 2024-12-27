@@ -73,51 +73,46 @@ Tiếp đến là một wrapper sẽ là element chịu trách nhiệm cho anima
           alt='birmingham-museums-trust-6fv0MEf3FUE-unsplash'
         />
       </li>
-      <li class='card'>
-        <Image
-          class='card__image'
-          width={300}
-          height={400}
-          src='/images/entrance-animations-for-images/birmingham-museums-trust-BPWZ01FtySg-unsplash.jpg'
-          alt='birmingham-museums-trust-BPWZ01FtySg-unsplash'
-        />
-      </li>
-      <li class='card'>
-        <Image
-          class='card__image'
-          width={300}
-          height={400}
-          src='/images/entrance-animations-for-images/birmingham-museums-trust-EdhYnPM_dbI-unsplash.jpg'
-          alt='birmingham-museums-trust-EdhYnPM_dbl-unsplash'
-        />
-      </li>
-      <li class='card'>
-        <Image
-          class='card__image'
-          width={300}
-          height={400}
-          src='/images/entrance-animations-for-images/birmingham-museums-trust-zWE5pOLWkio-unsplash.jpg'
-          alt='birmingham-museums-trust-zWE5pOLWkio-unsplash'
-        />
-      </li>
-      <li class='card'>
-        <Image
-          class='card__image'
-          width={300}
-          height={400}
-          src='/images/entrance-animations-for-images/geordanna-cordero-2Qg4y32pdCc-unsplash.jpg'
-          alt='geordanna-cordero-2Qg4y32pdCc-unsplash'
-        />
-      </li>
-      <li class='card'>
-        <Image
-          class='card__image'
-          width={300}
-          height={400}
-          src='/images/entrance-animations-for-images/museums-victoria-ddKNTAwZu3k-unsplash.jpg'
-          alt='museums-victoria-ddKNTAwZu3k-unsplash'
-        />
-      </li>
+      ...      
     </ul>
   </div>
+
+```
+
+Style ban đầu của các ảnh là xếp chồng lên nhau ở vị trí chính giữa screen
+
+```css
+.card {
+  width: 6rem;
+  aspect-ratio: 2/3;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 0.4rem;
+  overflow: hidden;
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+```
+
+với scene container, style bình thường căn giữa nội dung như bình thường nhưng có setup perspective cho animation lật ảnh:
+
+```css
+.scene {
+  perspective: 1000px;
+  overflow: hidden;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  left: 0;
+  top: 0;
+}
 ```

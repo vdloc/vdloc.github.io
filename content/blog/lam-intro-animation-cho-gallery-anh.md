@@ -116,3 +116,40 @@ với scene container, style bình thường căn giữa nội dung như bình t
   top: 0;
 }
 ```
+
+Như vậy là markup và style cơ bản đã xong, chúng ta đến với phần script
+Với chuyển động của các card, thư viện được sử dụng là [gsap](https://gsap.com/). Ngoài ra, để init script khi các ảnh đã được load, chúng ta sẽ sử dụng thêm thư viện [imagesloaded](https://github.com/desandro/imagesloaded)
+
+```javascript
+import imageLoaded from 'imagesloaded';
+import gsap from 'gsap';
+```
+
+Bắt đầu với việc tạo class và bind các elements ngoài DOM
+
+```javascript
+class Stage {
+  selectors = {
+    cards: '.card',
+    images: '.card__image',
+    cardsGroup: '.cards',
+  }; 
+  constructor() {
+    this.cardsGroup = document.querySelector(this.selectors.cardsGroup);
+    this.cards = this.cardsGroup.querySelectorAll(this.selectors.cards);
+    this.images = this.cardsGroup.querySelectorAll(this.selectors.images);
+    this.cards = gsap.utils.toArray(this.cards);
+    this.cardsCount = this.cards.length;  
+  }
+}
+```
+
+tiếp theo là thêm method đợi toàn bộ ảnh được load
+
+```javascript
+ waitForImagesLoaded() {
+    return new Promise((resolve) => {
+      imageLoaded(this.images, resolve);
+    });
+  }
+```

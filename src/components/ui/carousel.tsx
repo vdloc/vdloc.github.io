@@ -30,6 +30,12 @@ type CarouselContextProps = {
 
 const CarouselContext = React.createContext<CarouselContextProps | null>(null)
 
+/**
+ * Provides access to the carousel context, including state and navigation controls.
+ *
+ * @returns The current carousel context object.
+ * @throws Error if called outside of a `<Carousel />` component.
+ */
 function useCarousel() {
   const context = React.useContext(CarouselContext)
 

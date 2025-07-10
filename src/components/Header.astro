@@ -1,10 +1,10 @@
 ---
-import Nav from './Nav.astro';
 import {ModeToggle} from './DarkModeToggle';
+import MobileDrawer from "./react/mobileDrawer";
 ---
 
-<header class='flex items-center justify-between py-4'>  
-  <Nav />
+<header class='flex items-center justify-between py-4 px-6 border-b border-foreground'>  
+  <MobileDrawer client:load />
   <div
     class='justify-self-end py-2 flex items-center content-center text-text-bold d-none'
   >

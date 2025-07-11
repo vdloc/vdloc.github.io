@@ -27,7 +27,7 @@ export default function MobileDrawer() {
             <DrawerDescription>This action cannot be undone.</DrawerDescription>
           </DrawerHeader>
           <a
-            className='unset ml-4 rounded-sm transition-[background-size] duration-150 ease-in-out bg-left-bottom bg-[length:0%_55%] hover:bg-[length:100%_55%] bg-no-repeat bg-gradient-to-r from-primary-yellow to-primary-yellow dark:bg-none dark:hover:text-primary-yellow'
+            className='unset ml-4 rounded-sm transition-[background-size] duration-150 ease-in-out bg-bottom-left bg-size-[0%_55%] hover:bg-size-[100%_55%] bg-no-repeat bg-linear-to-r from-primary-yellow to-primary-yellow dark:bg-none dark:hover:text-primary-yellow'
             href='https://github.com/vdloc'
             target='_blank'
           >
@@ -39,7 +39,7 @@ export default function MobileDrawer() {
             <span>GitHub</span>
           </a>
           <a
-            className='unset ml-4 rounded-sm transition-[background-size] duration-150 bg-left-bottom bg-[length:0%_55%] hover:bg-[length:100%_55%] bg-no-repeat bg-gradient-to-r from-primary-blue to-primary-blue dark:bg-none dark:hover:text-primary-blue'
+            className='unset ml-4 rounded-sm transition-[background-size] duration-150 bg-bottom-left bg-size-[0%_55%] hover:bg-size-[100%_55%] bg-no-repeat bg-linear-to-r from-primary-blue to-primary-blue dark:bg-none dark:hover:text-primary-blue'
             href='https://www.facebook.com/vdlocdotme'
           >
             <i

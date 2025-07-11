@@ -1,37 +1,23 @@
 ---
+import PostList from './PostList.astro'
 ---
 
-<section class='mb-8'>
-  <div class='mb-6'>
-    <h1
-      class='font-bold text-text-heading text-center text-4xl md:text-5xl pt-4 pb-2 overflow-hidden'
-    >
-      <strong
-        class='bg-gradient-to-bl bg-no-repeat bg-bottom bg-[length:90%_40%] from-primary-blue to-primary-blue dark:from-primary-blue dark:to-primary-blue'
-      >
-        @vdloc
-      </strong>
-    </h1>
-  </div>
-  <div class='space-y-3 mt-8'>
-    <h1 class='font-bold text-white'>Welcome to My Portfolio!</h1>
-
-    <p>
+<div class="container mx-auto px-6">
+  <section class='pt-8'>
+    <h3 class="font-semibold text-2xl leading-none">
+      Home
+    </h3>
+    <p class="mt-7">
       My name is <strong>Loc</strong> ("Lộc"). It means "green leaf" or "lucky" in
       English.
     </p>
+  </section>
+  <section class="mt-7">
+    <h3 class="font-semibold text-lg mb-2">
+      Writing
+    </h3>
+    <PostList className="mt-7"/>
+  </section>
+</div>
 
-    <p>
-      As a dedicated Frontend Developer based in Ha Noi, Vietnam, I specialize
-      in crafting clean, minimalist web experiences that engage users through
-      thoughtful design and clean code. Proficient in <strong>HTML</strong>, <strong
-        >CSS</strong
-      >, <strong>JavaScript</strong>, and
-      <strong>React</strong>, I stay up-to-date on the latest industry trends to
-      deliver excellent results. Driven by a strong work ethic and eye for
-      detail, I value simplicity, professionalism, and creating intuitive
-      interfaces. Please explore my portfolio and get in touch to discuss your
-      project needs - I would love to collaborate with you.
-    </p>
-  </div>
-</section>
+

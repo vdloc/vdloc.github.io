@@ -67,7 +67,7 @@
   }
   body {
     @apply bg-[hsl(var(--background))] text-[hsl(var(--foreground))];
-    @apply font-mono;
+    @apply font-mono leading-relaxed;
   }
 }
 

@@ -10,14 +10,14 @@ import {
 } from '@/components/ui/drawer';
 import { Button } from '@/components/ui/button';
 import React from 'react';
-import { EyeIcon } from 'lucide-react';
+import { BoltIcon } from 'lucide-react';
 
 export default function MobileDrawer() {
   return (
     <aside className='md:hidden grid'>
       <Drawer>
         <DrawerTrigger className='cursor-pointer'>
-          <EyeIcon className='size-6' />
+          <BoltIcon className='size-[1.4rem] hover:animate-spin transition' />
         </DrawerTrigger>
         <DrawerContent>
           <DrawerHeader>

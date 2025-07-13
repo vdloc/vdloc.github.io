@@ -32,28 +32,14 @@ import Footer from "../components/Footer.astro";
   </head>
 
   <body
-    class="max-w-3xl mx-auto min-h-screen font-victor"
+    class="max-w-3xl mx-auto min-h-screen font-victor grid"
   >
-    <div>
+    <div class="h-full grid grid-rows-[auto_1fr_auto]">
       <Header />
-      <main id="main">
+      <main id="main" class="px-6 py-8">
         <slot name="main" />
       </main>
       <Footer />
-    </div>
-    <style>
-      body {
-        display: grid;
-        grid-template-areas:
-          "header"
-          "main"
-          "footer";
-        grid-template-rows: 5rem minmax(0, 1fr) 5rem;
-        grid-template-columns: minmax(0, 1fr);
-      }
-      main {
-        grid-area: main;
-      }
-    </style>
+    </div>    
   </body>
 </html>

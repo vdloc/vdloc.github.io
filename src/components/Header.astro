@@ -3,7 +3,7 @@ import {ModeToggle} from './react/DarkModeToggle';
 import MobileDrawer from "./react/MobileDrawer";
 ---
 
-<header class='flex items-center justify-between py-4 px-6 border-b border-foreground'>  
+<header class='flex items-center justify-between py-4 px-6 border-b border-foreground sticky top-0 z-10 bg-background'>  
   <MobileDrawer client:load />
   <div
     class='justify-self-end py-2 flex items-center content-center text-text-bold d-none'
@@ -13,21 +13,23 @@ import MobileDrawer from "./react/MobileDrawer";
 </header>
 
 <script is:inline>
+import { Theme } from "@/types/enums";
+
   const getThemePreference = () => {
     if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
       return localStorage.getItem('theme');
     }
     return window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? 'dark'
-      : 'light';
+      ? Theme.DARK
+      : Theme.LIGHT;
   };
-  const isDark = getThemePreference() === 'dark';
-  document.documentElement.classList[isDark ? 'add' : 'remove']('dark');
+  const isDark = getThemePreference() === Theme.DARK;
+  document.documentElement.classList[isDark ? 'add' : 'remove'](Theme.DARK);
 
   if (typeof localStorage !== 'undefined') {
     const observer = new MutationObserver(() => {
-      const isDark = document.documentElement.classList.contains('dark');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+      const isDark = document.documentElement.classList.contains(Theme.DARK);
+      localStorage.setItem('theme', isDark ? Theme.DARK : Theme.LIGHT);
     });
     observer.observe(document.documentElement, {
       attributes: true,

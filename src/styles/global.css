@@ -69,6 +69,11 @@
     @apply bg-[hsl(var(--background))] text-[hsl(var(--foreground))];
     @apply font-mono leading-relaxed;
   }
+
+  html body[data-scroll-locked] {
+    overflow: visible !important;
+    margin-right: 0 !important;
+  }
 }
 
 @theme inline {

@@ -52,14 +52,14 @@ export default function PostList({ className }: { className?: string }) {
                     <a
                       href={post.frontmatter.url}
                       target='_blank'
-                      className='block transition hover:skew-1 hover:underline'
+                      className='block transition-transform hover:skew-1 hover:underline'
                     >
                       <span>{post.frontmatter.title}</span>
                     </a>
                   ) : (
                     <a
                       href={`/blog/${post.slug}`}
-                      className='block transition hover:skew-1 hover:underline'
+                      className='block transition-transform hover:skew-1 hover:underline'
                     >
                       {post.frontmatter.title}
                     </a>

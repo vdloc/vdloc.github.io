@@ -46,7 +46,11 @@ export default function PostList({ className }: { className?: string }) {
               day: 'numeric',
             });
             return (
-              <TableRow className='peer-hover:opacity-50'>
+              <TableRow
+                className='peer-hover:opacity-50'
+                id={`post-${post.id}`}
+                key={post.id}
+              >
                 <TableCell className='first:pl-0 last:pr-0'>
                   {post.frontmatter.external ? (
                     <a

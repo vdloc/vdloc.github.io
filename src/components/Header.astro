@@ -1,19 +1,21 @@
 ---
-import {ModeToggle} from './react/DarkModeToggle';
-import MobileDrawer from "./react/MobileDrawer";
+import { ModeToggle } from './react/DarkModeToggle';
+import MobileDrawer from './react/MobileDrawer';
 ---
 
-<header class='flex items-center justify-between py-4 px-6 border-b border-foreground sticky top-0 z-10 bg-background'>  
+<header
+  class='flex items-center justify-between py-4 px-6 border-b border-foreground sticky top-0 z-10 bg-background'
+>
   <MobileDrawer client:load />
   <div
     class='justify-self-end py-2 flex items-center content-center text-text-bold d-none'
   >
   </div>
-  <ModeToggle client:load/>
+  <ModeToggle client:load />
 </header>
 
 <script is:inline>
-import { Theme } from "@/types/enums";
+  import { Theme } from '@/types/enums';
 
   const getThemePreference = () => {
     if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {

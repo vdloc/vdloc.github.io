@@ -18,11 +18,11 @@ import DrawerLinks from '@/components/react/DrawerLinks';
 export default function MobileDrawer() {
   return (
     <aside className='md:hidden grid'>
-      <Drawer setBackgroundColorOnScale={true}>
+      <Drawer>
         <DrawerTrigger className='cursor-pointer'>
           <BoltIcon className='size-[1.4rem] hover:animate-spin transition' />
         </DrawerTrigger>
-        <DrawerContent>
+        <DrawerContent className='z-[100]'>
           <DrawerHeader className='text-left'>
             <div className='flex items-center gap-2'>
               <Avatar className='size-12 bg-gray-300 p-1 shadow-gray-200 shadow-sm'>
@@ -41,7 +41,9 @@ export default function MobileDrawer() {
             </div>
           </DrawerHeader>
           <DrawerContent>
-            
+            <ul>
+              <DrawerLinks></DrawerLinks>
+            </ul>
           </DrawerContent>
           <DrawerFooter>
             <Button>Submit</Button>

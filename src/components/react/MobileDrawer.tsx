@@ -40,11 +40,7 @@ export default function MobileDrawer() {
               </div>
             </div>
           </DrawerHeader>
-          <DrawerContent>
-            <ul>
-              <DrawerLinks></DrawerLinks>
-            </ul>
-          </DrawerContent>
+          <DrawerLinks></DrawerLinks>
           <DrawerFooter>
             <Button>Submit</Button>
             <Button variant='outline'>Cancel</Button>

@@ -10,12 +10,10 @@ import {
 import { Theme } from '@/types/enums';
 
 export function ModeToggle() {
-  const [theme, setThemeState] = useState<Theme>(Theme.Light);
-
-  useEffect(() => {
-    const isDarkMode = document.documentElement.classList.contains(Theme.Dark);
-    setThemeState(isDarkMode ? Theme.Dark : Theme.Light);
-  }, []);
+  const isDarkMode = document.documentElement.classList.contains(Theme.Dark);
+  const [theme, setThemeState] = useState<Theme>(
+    isDarkMode ? Theme.Dark : Theme.Light
+  );
 
   useEffect(() => {
     const isDark =

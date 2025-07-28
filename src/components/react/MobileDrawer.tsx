@@ -1,18 +1,13 @@
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer';
-import { Button } from '@/components/ui/button';
 import React from 'react';
 import { BoltIcon } from 'lucide-react';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
-import HeaderLink from '@/components/HeaderLink.astro';
 import DrawerLinks from '@/components/react/DrawerLinks';
 
 export default function MobileDrawer() {
@@ -41,10 +36,6 @@ export default function MobileDrawer() {
             </div>
           </DrawerHeader>
           <DrawerLinks></DrawerLinks>
-          <DrawerFooter>
-            <Button>Submit</Button>
-            <Button variant='outline'>Cancel</Button>
-          </DrawerFooter>
         </DrawerContent>
       </Drawer>
     </aside>

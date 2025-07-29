@@ -1,7 +1,8 @@
 /* eslint-disable turbo/no-undeclared-env-vars */
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
-import tailwind from '@astrojs/tailwind';
+import tailwindcss from '@tailwindcss/vite';
+import react from '@astrojs/react';
 
 /* 
   We are doing some URL mumbo jumbo here to tell Astro what the URL of your website will be.
@@ -30,11 +31,8 @@ if (isBuild) {
 export default defineConfig({
   server: { port: SERVER_PORT },
   site: BASE_URL,
-  integrations: [
-    sitemap(),
-    tailwind({
-      config: { applyBaseStyles: false },
-    }),
-    
-  ],
+  integrations: [sitemap(), react()],
+  vite: {
+    plugins: [tailwindcss()],
+  },
 });

@@ -84,3 +84,15 @@
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+@layer components {
+  .page-layout {
+    @apply h-full grid;
+
+    grid-template-rows: auto 1fr auto;
+
+    @media (width >= 64rem) {
+      grid-template-columns: minmax(15rem, 1fr) 6fr;
+    }
+  }
+}

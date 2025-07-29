@@ -15,27 +15,20 @@ import MobileDrawer from './react/MobileDrawer';
 </header>
 
 <script is:inline>
-  import { Theme } from '@/types/enums';
-
-  const getThemePreference = () => {
-    if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-      return localStorage.getItem('theme');
-    }
-    return window.matchMedia('(prefers-color-scheme: dark)').matches
-      ? Theme.DARK
-      : Theme.LIGHT;
-  };
-  const isDark = getThemePreference() === Theme.DARK;
-  document.documentElement.classList[isDark ? 'add' : 'remove'](Theme.DARK);
-
-  if (typeof localStorage !== 'undefined') {
-    const observer = new MutationObserver(() => {
-      const isDark = document.documentElement.classList.contains(Theme.DARK);
-      localStorage.setItem('theme', isDark ? Theme.DARK : Theme.LIGHT);
-    });
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ['class'],
-    });
-  }
+	const getThemePreference = () => {
+		if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+			return localStorage.getItem('theme');
+		}
+		return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'theme-light';
+	};
+	const isDark = getThemePreference() === 'dark';
+	document.documentElement.classList[isDark ? 'add' : 'remove']('dark');
+ 
+	if (typeof localStorage !== 'undefined') {
+		const observer = new MutationObserver(() => {
+			const isDark = document.documentElement.classList.contains('dark');
+			localStorage.setItem('theme', isDark ? 'dark' : 'theme-light');
+		});
+		observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+	}
 </script>

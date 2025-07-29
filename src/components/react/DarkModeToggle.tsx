@@ -10,17 +10,21 @@ import {
 import { Theme } from '@/types/enums';
 
 export function ModeToggle() {
-  const isDarkMode = document.documentElement.classList.contains(Theme.Dark);
-  const [theme, setThemeState] = useState<Theme>(
-    isDarkMode ? Theme.Dark : Theme.Light
-  );
+  const [theme, setThemeState] = React.useState<
+    'theme-light' | 'dark' | 'system'
+  >('theme-light');
 
-  useEffect(() => {
+  React.useEffect(() => {
+    const isDarkMode = document.documentElement.classList.contains('dark');
+    setThemeState(isDarkMode ? 'dark' : 'theme-light');
+  }, []);
+
+  React.useEffect(() => {
     const isDark =
-      theme === Theme.Dark ||
-      (theme === Theme.System &&
+      theme === 'dark' ||
+      (theme === 'system' &&
         window.matchMedia('(prefers-color-scheme: dark)').matches);
-    document.documentElement.classList[isDark ? 'add' : 'remove'](Theme.Dark);
+    document.documentElement.classList[isDark ? 'add' : 'remove']('dark');
   }, [theme]);
 
   return (
@@ -29,9 +33,9 @@ export function ModeToggle() {
         <Button
           variant='outline'
           size='icon'
-          className='border-0  grid w-auto h-auto [&_svg]:size-[1.3rem] cursor-pointer'
+          className='border-0 grid w-auto h-auto [&_svg]:size-[1.3rem] cursor-pointer relative'
         >
-          <Sun className='block scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90' />
+          <Sun className='block  scale-100 rotate-0 transition-all  dark:scale-0 dark:-rotate-90' />
           <Moon className='block absolute scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0' />
           <span className='sr-only'>Toggle theme</span>
         </Button>

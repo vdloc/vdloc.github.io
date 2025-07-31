@@ -42,6 +42,12 @@ type SidebarContextProps = {
 
 const SidebarContext = React.createContext<SidebarContextProps | null>(null)
 
+/**
+ * Provides access to the current sidebar context.
+ *
+ * Must be used within a `SidebarProvider`. Throws an error if called outside the provider.
+ * @returns The sidebar context value, including state and control functions.
+ */
 function useSidebar() {
   const context = React.useContext(SidebarContext)
   if (!context) {

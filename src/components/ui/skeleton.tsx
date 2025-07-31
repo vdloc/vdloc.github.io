@@ -1,5 +1,10 @@
 import { cn } from "@/lib/utils"
 
+/**
+ * Renders a placeholder div with a pulsing animation and rounded corners, typically used to indicate loading content.
+ *
+ * Additional class names and div attributes can be provided for further customization.
+ */
 function Skeleton({
   className,
   ...props

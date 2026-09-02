@@ -1,0 +1,169 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-02T00:00:00Z",
+  "title": "Design System: vdloc.github.io",
+  "extensions": {
+    "colorMeta": {
+      "automaton-accent": {
+        "role": "primary",
+        "displayName": "Automaton Accent (Bioluminescent Teal)",
+        "canonical": "rgb(90 250 209)",
+        "tonalRamp": ["#03231c", "#053c30", "#075c49", "#0a8267", "#2cbf9a", "#5afad1", "#9dfce4", "#d4fef2"]
+      },
+      "voidground-experience": {
+        "role": "neutral",
+        "displayName": "Voidground (Experience)",
+        "canonical": "rgb(6 8 14)",
+        "tonalRamp": ["#020305", "#06080e", "#0c0f1a", "#141a2c", "#1f2740", "#2e3a5c", "#48547d", "#7480a0"]
+      },
+      "voidground-shared": {
+        "role": "neutral",
+        "displayName": "Voidground (shared dark)",
+        "canonical": "rgb(10 12 20)",
+        "tonalRamp": ["#030407", "#0a0c14", "#12141f", "#1c1f2e", "#2a2e42", "#3e435c", "#5c6280", "#8b90ab"]
+      },
+      "text-heading-dark": {
+        "role": "neutral",
+        "displayName": "Heading/Bold Slate",
+        "canonical": "rgb(226 232 240)",
+        "tonalRamp": ["#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1", "#e2e8f0"]
+      },
+      "text-body-dark": {
+        "role": "neutral",
+        "displayName": "Body Slate",
+        "canonical": "rgb(203 213 225)",
+        "tonalRamp": ["#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1", "#e2e8f0"]
+      },
+      "text-muted-dark": {
+        "role": "neutral",
+        "displayName": "Muted Slate",
+        "canonical": "rgb(148 163 184)",
+        "tonalRamp": ["#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1", "#f1f5f9"]
+      },
+      "code-wash-dark": {
+        "role": "tertiary",
+        "displayName": "Code Sky (dark wash, 15% opacity)",
+        "canonical": "rgb(14 165 233)",
+        "tonalRamp": ["#04283a", "#06455f", "#086586", "#0b87ae", "#0ea5e9", "#4cc3f4", "#8fdcf9", "#d0f0fd"]
+      },
+      "selection-lime": {
+        "role": "tertiary",
+        "displayName": "Selection Lime",
+        "canonical": "rgb(217 249 157)",
+        "tonalRamp": ["#1d2807", "#334610", "#4b661a", "#659024", "#8fc236", "#bef264", "#d9f99d", "#ecfccb"]
+      }
+    },
+    "typographyMeta": {
+      "experience-display": { "displayName": "Experience Display", "purpose": "The @vdloc name mark on /, centered over the automaton field." },
+      "experience-body": { "displayName": "Experience Body", "purpose": "Intro role line, bio paragraphs on /, and the /lab list — mono stack scoped to .intro-field/.lab-field." },
+      "read-display": { "displayName": "Read Display", "purpose": "Blog post titles and page h1s on Read surfaces." },
+      "read-body": { "displayName": "Read Body", "purpose": "All Read-surface prose; unchanged measure/leading from the prior system." },
+      "label": { "displayName": "Label", "purpose": "Timestamps and inline code, shared across both registers." }
+    },
+    "motion": [
+      { "name": "automaton-tick", "value": "1000ms / 24", "purpose": "Deliberate low tick-rate for the automaton simulation step; reads as computation, not a smooth loop." },
+      { "name": "intro-entrance-blur", "value": "700ms cubic-bezier(0.16, 1, 0.3, 1) 100ms both", "purpose": "Name-mark blur-to-sharp entrance on /; skipped under prefers-reduced-motion." },
+      { "name": "fade-up-standard", "value": "500ms cubic-bezier(0.16, 1, 0.3, 1) both", "purpose": "Staggered copy/list entrance fades across Intro, lab list, and blog post title." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Automaton Field",
+      "kind": "custom",
+      "refersTo": "automaton-field",
+      "description": "Fixed full-bleed GPU Game-of-Life shader background, Experience surfaces only (/, /lab). Signature component of the redesign.",
+      "html": "<canvas class=\"ds-automaton-field\" aria-hidden=\"true\"></canvas>",
+      "css": ".ds-automaton-field { position: fixed; inset: 0; z-index: -10; width: 100vw; height: 100vh; display: block; background: rgb(6 8 14); }"
+    },
+    {
+      "name": "Intro Name Mark",
+      "kind": "custom",
+      "refersTo": "intro-mark",
+      "description": "The @vdloc plain-text name mark centered over the field on /. No box, no glow on the glyphs — layering, not literal cell-typography.",
+      "html": "<h1 class=\"ds-intro-mark\">@vdloc</h1>",
+      "css": ".ds-intro-mark { font-family: ui-monospace, 'JetBrains Mono', 'Space Mono', Menlo, Consolas, monospace; font-weight: 700; font-size: clamp(2.25rem, 6vw, 3.75rem); line-height: 1.1; letter-spacing: -0.01em; color: rgb(226 232 240); text-align: center; }"
+    },
+    {
+      "name": "Read-Surface Body Link",
+      "kind": "custom",
+      "refersTo": "post-list-link",
+      "description": "Prose/list link on a Read surface under the dark register. Underline mechanism unchanged from the prior system; color neutralized so the automaton accent never appears as a link color.",
+      "html": "<a class=\"ds-read-link\" href=\"#\">Post title</a>",
+      "css": ".ds-read-link { color: rgb(226 232 240); text-decoration: none; background-repeat: no-repeat; background-size: 0% 2px; background-position: 0 100%; background-image: linear-gradient(to right, rgb(226 232 240), rgb(226 232 240)); transition: background-size 0.3s; } .ds-read-link:hover, .ds-read-link:focus-visible { background-size: 100% 2px; }"
+    },
+    {
+      "name": "Inline Code (dark)",
+      "kind": "custom",
+      "refersTo": "code-inline-dark",
+      "description": "Inline code chip on the forced-dark register, carried forward from the prior system.",
+      "html": "<code class=\"ds-code-dark\">const x = 1</code>",
+      "css": ".ds-code-dark { background-color: rgb(14 165 233 / 0.15); border: 1px solid rgb(254 243 199 / 0.15); color: #fff; padding: 0.125rem 0.25rem; border-radius: 0.25rem; font-size: 0.875em; font-weight: 600; }"
+    },
+    {
+      "name": "Scroll Cue",
+      "kind": "custom",
+      "refersTo": "scroll-cue",
+      "description": "Bottom-center chevron on the / intro viewport, bouncing gently, muted-slate.",
+      "html": "<div class=\"ds-scroll-cue\" aria-hidden=\"true\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 20 20\" fill=\"none\"><path d=\"M4 7l6 6 6-6\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></div>",
+      "css": ".ds-scroll-cue { color: rgb(148 163 184); animation: ds-scroll-bounce 1800ms ease-in-out infinite; } @keyframes ds-scroll-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Living Field",
+    "overview": "The site is a Game-of-Life-family cellular automaton, running now, in the browser, as a fixed full-bleed GPU shader behind content — not a looping video, not a static hero image with particles bolted on. Content sits inside a field that is always faintly alive: a still-life cluster seeded near center, a steady spontaneous-generation term so it never goes dark, cursor and scroll perturbing it locally. This is the single defining device of the redesign and the reason every other decision — palette, type, motion — exists in service of legibility over that field, not decoration alongside it.\n\nThe ground is a near-black voidground, never pure black: rgb(6 8 14) on the two Experience surfaces that carry the live shader (/, /lab), and a very slightly lighter rgb(10 12 20) as the shared dark-theme body token that every other surface inherits when translated to dark. One accent exists in the entire system — a bioluminescent teal-green — and it is carried exclusively by living cells inside the shader canvas. It does not appear as link color, button fill, focus ring, or any other UI element anywhere in the built CSS.\n\nTwo registers exist. Experience surfaces (/, /lab) run the live automaton and switch to a geometric-mono system-font stack — a disclosed, accepted exception to a no-system-font expectation, scoped only to .intro-field and .lab-field. Read surfaces (/blog, /blog/[slug], /projects, /contact, /404) carry no WebGL and keep the site's pre-existing Space Grotesk body face, translated to dark via a forceDark prop. Every page sets forceDark except one: /resume is a standing, deliberate exclusion, entirely outside this redesign.",
+    "keyCharacteristics": [
+      "One live computation, not a decoration: the automaton is the world, run as a GPU shader, never a static asset",
+      "Near-black, never pure black, as the ground on every surface (rgb(6 8 14) Experience / rgb(10 12 20) shared dark)",
+      "One accent, reserved absolutely for living cells; UI chrome is accent-free",
+      "Two type registers by surface role: geometric-mono on Experience, Space Grotesk on Read — never mixed on one page",
+      "Motion runs at a deliberate low tick-rate (24fps) so it reads as computation, not smoothness",
+      "/resume is the one surface outside the system, kept in its pre-redesign light styling on purpose"
+    ],
+    "rules": [
+      {
+        "name": "The Accent-in-the-Field-Only Rule",
+        "body": "The bioluminescent teal is the shader's alone. It renders live cells inside AutomatonField.astro and nowhere else — not as a link color, not as a button fill, not as a focus ring, not as a hover state. If a teal value shows up on a DOM element's color or background-color, the system has been broken. This was a material fix this round; verify it stays fixed on every new surface.",
+        "section": "colors"
+      },
+      {
+        "name": "The Never-Pure-Black Rule",
+        "body": "The voidground is always a near-black with a blue cast (rgb(6 8 14) or rgb(10 12 20)), never #000. Pure black flattens the shader's low-luminance glow kernel into banding.",
+        "section": "colors"
+      },
+      {
+        "name": "The Surface-Scoped Face Rule",
+        "body": "The mono stack is scoped to .intro-field and .lab-field only — it never leaks onto Read-surface body or h1–h6, which stay on Space Grotesk. A page does not mix both faces.",
+        "section": "typography"
+      },
+      {
+        "name": "The Diacritic Test",
+        "body": "Any type change on a Read surface must be checked against Vietnamese text with stacked diacritics (ế, ộ, ữ) — the blog is written in Vietnamese and this predates the redesign, untouched by it.",
+        "section": "typography"
+      },
+      {
+        "name": "The Field-Is-the-Depth Rule",
+        "body": "On / and /lab, do not add drop shadows or glass/blur panels to compete with the shader. Depth on these surfaces comes from the automaton's glow falloff, never from box-shadow.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep the automaton accent (rgb(90 250 209)) inside the shader canvas only; every other neutral in the system (text, links, borders) comes from the slate scale.",
+      "Do hold the near-black voidground (rgb(6 8 14) Experience / rgb(10 12 20) shared dark) — never pure #000.",
+      "Do scope the geometric-mono stack to .intro-field / .lab-field only; Read surfaces keep Space Grotesk.",
+      "Do give any new full-viewport motion device a real designed static fallback under prefers-reduced-motion (per the automaton's ~40-generation settle-then-render pattern), not a disabled/frozen canvas.",
+      "Do run Experience-surface animation at a deliberately low, visible tick rate rather than a smooth 60fps loop — the roughness reads as live computation.",
+      "Do check every Read-surface type or copy change against Vietnamese diacritics."
+    ],
+    "donts": [
+      "Don't use the automaton accent as a UI fill, link color, button background, or focus ring anywhere outside the shader canvas — this was a material fix this round and it regresses easily.",
+      "Don't add drop shadows, glass panels, or bordered boxes over the automaton field; the glow kernel is the system's only depth cue on Experience surfaces.",
+      "Don't mix the mono and Space Grotesk faces on one page; the split is by surface role (Experience vs. Read), not decorative variety.",
+      "Don't treat /resume's light theme, Raleway face, or bordered layout as drift to fix — it's a standing, explicit exclusion from this system.",
+      "Don't promote the geometric-mono system-font stack beyond Experience surfaces without revisiting the disclosed-exception status noted in the direction contract; it's an accepted trade, not a new floor rule for self-hosted type."
+    ]
+  }
+}

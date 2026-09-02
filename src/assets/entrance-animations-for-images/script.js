@@ -32,6 +32,30 @@ class Stage {
     const radius1 = 50 + imageHeight / 2;
     const radius2 = 250 - radius1;
 
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches;
+
+    if (prefersReducedMotion) {
+      // Skip the entrance animation and the infinite auto-rotate; jump
+      // straight to the settled circular arrangement so the layout is
+      // still communicated without continuous motion.
+      gsap.set(this.cardsGroup, { transformStyle: 'preserve-3d' });
+      gsap.set(this.cards, {
+        transformOrigin: `center ${radius1 + imageHeight / 2}px`,
+        x: (index) =>
+          Math.round(radius2 * Math.cos(this.sliceAngle * index - Math.PI / 4)),
+        y: (index) =>
+          Math.round(
+            radius2 * Math.sin(this.sliceAngle * index - Math.PI / 4)
+          ) - radius1,
+        rotation: (index) => (index + 1) * (360 / this.cardsCount),
+        rotateY: 180,
+        opacity: 0.8,
+      });
+      return;
+    }
+
     gsap
       .timeline()
       .from(this.cards, {

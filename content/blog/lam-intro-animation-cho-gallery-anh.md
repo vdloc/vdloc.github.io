@@ -4,6 +4,7 @@ draft: false
 title: Thử làm intro animation cho gallery images 
 description: Dựa theo ý tưởng tại tympanus.net/codrops/2024/04/10/image-stack-entrance-animations/
 date: 2024-12-23
+demo: /lab/entrance-animation-for-images
 ---
 
 Bài viết dựa theo [Image Stack Entrance Animations](https://tympanus.net/codrops/2024/04/10/image-stack-entrance-animations/)

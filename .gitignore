@@ -18,6 +18,10 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 
+# impeccable skill: ephemeral review/browser-testing artifacts
+.impeccable/review/
+.playwright-mcp/
+
 # yarn
 .pnp.*
 .yarn/*

@@ -8,16 +8,27 @@ gsap.registerPlugin(ScrollTrigger);
 const body = document.body;
 
 const paths = [...document.querySelectorAll('path.path-anim')];
-const lenis = new Lenis({
-  lerp: 0.1,
-  smooth: true,
-});
 
-const scrollFn = (time) => {
-  lenis.raf(time);
+const prefersReducedMotion = window.matchMedia(
+  '(prefers-reduced-motion: reduce)'
+).matches;
+
+// Lenis adds inertia/smoothing on top of native scroll, which is the
+// continuous-motion-regardless-of-input part prefers-reduced-motion asks
+// to remove. The scroll-linked path morph below stays: it is driven 1:1
+// by scroll position each frame, not an independent animation.
+if (!prefersReducedMotion) {
+  const lenis = new Lenis({
+    lerp: 0.1,
+    smooth: true,
+  });
+
+  const scrollFn = (time) => {
+    lenis.raf(time);
+    requestAnimationFrame(scrollFn);
+  };
   requestAnimationFrame(scrollFn);
-};
-requestAnimationFrame(scrollFn);
+}
 
 paths.forEach((el) => {
   const svgEl = el.closest('svg');

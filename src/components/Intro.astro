@@ -1,37 +1,133 @@
 ---
 ---
 
-<section class='mb-8'>
+<section class='intro-field relative min-h-[calc(100svh-10rem)] flex flex-col justify-center mb-8'>
   <div class='mb-6'>
     <h1
-      class='font-bold text-text-heading text-center text-4xl md:text-5xl pt-4 pb-2 overflow-hidden'
+      class='font-bold text-center text-4xl md:text-6xl pt-4 pb-2 overflow-hidden tracking-tight'
     >
-      <strong
-        class='bg-gradient-to-bl bg-no-repeat bg-bottom bg-[length:90%_40%] from-primary-blue to-primary-blue dark:from-primary-blue dark:to-primary-blue'
-      >
-        @vdloc
-      </strong>
+      <strong class='intro-mark intro-name'>@vdloc</strong>
     </h1>
   </div>
-  <div class='space-y-3 mt-8'>
-    <h1 class='font-bold text-white'>Welcome to My Portfolio!</h1>
+  <div class='space-y-3 mt-8 max-w-xl mx-auto text-center'>
+    <h2 class='intro-fade intro-role font-semibold text-lg md:text-xl'>
+      Frontend Developer — Ha Noi, Vietnam
+    </h2>
 
-    <p>
+    <p class='intro-fade intro-fade-1 intro-body'>
       My name is <strong>Loc</strong> ("Lộc"). It means "green leaf" or "lucky" in
       English.
     </p>
 
-    <p>
-      As a dedicated Frontend Developer based in Ha Noi, Vietnam, I specialize
-      in crafting clean, minimalist web experiences that engage users through
-      thoughtful design and clean code. Proficient in <strong>HTML</strong>, <strong
-        >CSS</strong
-      >, <strong>JavaScript</strong>, and
-      <strong>React</strong>, I stay up-to-date on the latest industry trends to
-      deliver excellent results. Driven by a strong work ethic and eye for
-      detail, I value simplicity, professionalism, and creating intuitive
-      interfaces. Please explore my portfolio and get in touch to discuss your
-      project needs - I would love to collaborate with you.
+    <p class='intro-fade intro-fade-2 intro-body'>
+      I build the artifact, not just describe it — clean, minimalist web
+      experiences engineered in <strong>HTML</strong>, <strong>CSS</strong>,
+      <strong>JavaScript</strong>, and <strong>React</strong>. The field
+      behind this text is live: a GPU cellular automaton, running now, not a
+      recording. Explore the work, or get in touch.
     </p>
   </div>
+
+  <div class='scroll-cue absolute bottom-2 left-1/2 -translate-x-1/2' aria-hidden='true'>
+    <svg width='20' height='20' viewBox='0 0 20 20' fill='none'>
+      <path d='M4 7l6 6 6-6' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' />
+    </svg>
+  </div>
 </section>
+
+<style>
+  .intro-field {
+    color: rgb(226 232 240);
+    /* geometric-mono, per OWN-WORLD (direction e3870b1b) — system stack,
+       scoped to this Experience surface only, no new webfont asset */
+    font-family: ui-monospace, 'JetBrains Mono', 'Space Mono', Menlo,
+      Consolas, monospace;
+  }
+
+  .intro-name {
+    color: rgb(226 232 240);
+  }
+
+  .intro-role {
+    color: rgb(203 213 225);
+  }
+
+  .scroll-cue {
+    color: rgb(148 163 184);
+    animation: intro-fade-up 500ms cubic-bezier(0.16, 1, 0.3, 1) 740ms both,
+      scroll-cue-bounce 1800ms ease-in-out 1240ms infinite;
+  }
+
+  @keyframes scroll-cue-bounce {
+    0%, 100% {
+      transform: translate(-50%, 0);
+    }
+    50% {
+      transform: translate(-50%, 6px);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-cue {
+      animation: none;
+    }
+  }
+
+  .intro-body {
+    color: rgb(203 213 225);
+  }
+
+  .intro-body strong {
+    color: rgb(226 232 240);
+  }
+
+  @keyframes intro-mark-in {
+    from {
+      opacity: 0;
+      filter: blur(6px);
+    }
+    to {
+      opacity: 1;
+      filter: blur(0);
+    }
+  }
+
+  @keyframes intro-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .intro-mark {
+    animation: intro-mark-in 700ms cubic-bezier(0.16, 1, 0.3, 1) 100ms both;
+  }
+
+  .intro-fade {
+    animation: intro-fade-up 500ms cubic-bezier(0.16, 1, 0.3, 1) 500ms both;
+  }
+
+  .intro-fade-1 {
+    animation-delay: 620ms;
+  }
+
+  .intro-fade-2 {
+    animation-delay: 740ms;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .intro-mark,
+    .intro-fade,
+    .intro-fade-1,
+    .intro-fade-2 {
+      animation: none;
+      opacity: 1;
+      filter: none;
+      transform: none;
+    }
+  }
+</style>

@@ -3,6 +3,7 @@ import { readAll } from '../lib/markdoc/read';
 import { blog } from '../lib/markdoc/frontmatter.schema';
 import PageLayout from '../layouts/PageLayout.astro';
 import PageMeta from '../components/PageMeta.astro';
+import AutomatonField from '../components/AutomatonField.astro';
 import { SITE_TITLE } from '../config';
 import { sortPostsByDate } from 'src/utils';
 
@@ -15,9 +16,11 @@ const sortedPosts = sortPostsByDate(posts);
 
 ---
 
-<PageLayout>
+<PageLayout forceDark>
   <PageMeta title={`Experimetal Lab | ${SITE_TITLE}`} slot='meta' />
-  <section slot='main'>
+  <section slot='main' class="lab-field">
+    <AutomatonField />
+    <h1 class="text-3xl font-bold mb-6 lab-heading">Lab</h1>
     <ul class="grid md:gap-4">
       {
         sortedPosts.map((post) => {
@@ -76,3 +79,54 @@ const sortedPosts = sortPostsByDate(posts);
     </ul>
   </section>
 </PageLayout>
+
+<style>
+  @keyframes list-item-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  ul > li {
+    animation: list-item-fade-up 400ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  ul > li:nth-child(1) {
+    animation-delay: 60ms;
+  }
+  ul > li:nth-child(2) {
+    animation-delay: 120ms;
+  }
+  ul > li:nth-child(3) {
+    animation-delay: 180ms;
+  }
+  ul > li:nth-child(n + 4) {
+    animation-delay: 240ms;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    ul > li {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .lab-field {
+    min-height: calc(100svh - 10rem);
+    padding-top: 2rem;
+    /* geometric-mono, per OWN-WORLD (direction e3870b1b) — system stack,
+       scoped to this Experience surface only, no new webfont asset */
+    font-family: ui-monospace, 'JetBrains Mono', 'Space Mono', Menlo,
+      Consolas, monospace;
+  }
+
+  .lab-heading {
+    color: rgb(226 232 240);
+  }
+</style>

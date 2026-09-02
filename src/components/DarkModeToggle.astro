@@ -24,13 +24,15 @@
     const themeColorMetaTag = document.head.querySelector(
       'meta[name="theme-color"]'
     );
+    const toggleButton = document.getElementById("mode-toggle");
+    toggleButton?.setAttribute("aria-checked", String(mode === "dark"));
 
     if (mode === "dark") {
       document.documentElement.classList.remove("light");
       document.documentElement.classList.add("dark");
       if (themeColorMetaTag) {
         // @ts-ignore
-        themeColorMetaTag.content = "#262626";
+        themeColorMetaTag.content = "#0f172a";
       }
     } else {
       document.documentElement.classList.remove("dark");
@@ -59,6 +61,7 @@
 
       if (iconElem) {
         // set the toggle mode based on the html classname set in ThemeScript.astro
+        toggle?.setAttribute("aria-checked", String(currentMode === "dark"));
         if (currentMode === "dark") {
           iconElem.classList.remove("light");
           iconElem.classList.add("dark");

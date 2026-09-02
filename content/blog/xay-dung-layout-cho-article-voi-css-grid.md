@@ -4,6 +4,7 @@ draft: false
 title: Xây dựng layout cho article với CSS Grid
 description: Xây dựng layout cho article với CSS Grid
 date: 2023-11-05
+demo: /lab/article-layout-with-css-grid
 ---
 
 Bài viết dựa theo [Article Layout with CSS Grid](https://mastery.games/post/article-grid-layout/)

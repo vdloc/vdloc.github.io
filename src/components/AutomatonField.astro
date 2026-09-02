@@ -1,0 +1,352 @@
+---
+/*
+  Fixed, full-bleed GPU cellular-automaton field.
+  Direction contract: .impeccable/surfaces/direction-e3870b1b.md
+  - Own-list candidate 5 (cellular automaton), seed e3870b1b
+  - Raised by challenger 1 (glyph-density aliveness) + challenger 5 (adaptive field states)
+  Used as page background on Experience-mode surfaces only (home for now).
+*/
+---
+
+<canvas id="automaton-field" class="automaton-field" aria-hidden="true"></canvas>
+
+<style>
+  .automaton-field {
+    position: fixed;
+    inset: 0;
+    z-index: -10;
+    width: 100vw;
+    height: 100vh;
+    display: block;
+    background: rgb(6 8 14);
+  }
+
+  /* the shared body background paints above a negative-z-index sibling —
+     knock it transparent only on the surface that carries this field, and
+     override the shared text tokens for legibility against the dark
+     register, regardless of the light/dark toggle state. Scoped to this
+     surface only — Read surfaces keep the incumbent theme untouched. */
+  :global(body:has(.automaton-field)) {
+    background: rgb(6 8 14) !important;
+    --color-text-heading: 226 232 240;
+    --color-text-bold: 226 232 240;
+    --color-text-muted: 148 163 184;
+    /* neutral — the automaton accent is reserved for living cells only,
+       never UI fill (OWN-WORLD discipline, direction e3870b1b) */
+    --color-text-link: 226 232 240;
+  }
+</style>
+
+<script>
+  import * as THREE from "three";
+
+  const canvas = document.getElementById(
+    "automaton-field"
+  ) as HTMLCanvasElement | null;
+  if (!canvas) throw new Error("AutomatonField: #automaton-field not found");
+
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  const GRID = 160;
+
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    antialias: false,
+    alpha: false,
+    powerPreference: "low-power",
+  });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(window.innerWidth, window.innerHeight, false);
+
+  // --- state texture: R channel = alive (0/1), stored on a GRID x GRID DataTexture ---
+  function randomState(aliveRatio: number) {
+    const data = new Uint8Array(GRID * GRID * 4);
+    for (let i = 0; i < GRID * GRID; i++) {
+      const alive = Math.random() < aliveRatio ? 255 : 0;
+      data[i * 4] = alive;
+      data[i * 4 + 1] = alive;
+      data[i * 4 + 2] = alive;
+      data[i * 4 + 3] = 255;
+    }
+    return data;
+  }
+
+  // A still, glider-class stable block spelling out a locked structure near center —
+  // a block (2x2 "still life") cluster arranged as a simple stable emblem.
+  function stampStillLife(data: Uint8Array) {
+    const cx = Math.floor(GRID / 2);
+    const cy = Math.floor(GRID / 2);
+    const blocks = [
+      [-14, -3],
+      [-14, 3],
+      [-6, -3],
+      [-6, 3],
+      [2, -3],
+      [2, 3],
+      [10, -3],
+      [10, 3],
+    ];
+    const set = (x: number, y: number) => {
+      const xi = ((x % GRID) + GRID) % GRID;
+      const yi = ((y % GRID) + GRID) % GRID;
+      const idx = (yi * GRID + xi) * 4;
+      data[idx] = 255;
+      data[idx + 1] = 255;
+      data[idx + 2] = 255;
+      data[idx + 3] = 255;
+    };
+    for (const [ox, oy] of blocks) {
+      set(cx + ox, cy + oy);
+      set(cx + ox + 1, cy + oy);
+      set(cx + ox, cy + oy + 1);
+      set(cx + ox + 1, cy + oy + 1);
+    }
+  }
+
+  const initial = randomState(0.18);
+  stampStillLife(initial);
+
+  const stateA = new THREE.DataTexture(
+    initial,
+    GRID,
+    GRID,
+    THREE.RGBAFormat,
+    THREE.UnsignedByteType
+  );
+  stateA.needsUpdate = true;
+  stateA.magFilter = THREE.NearestFilter;
+  stateA.minFilter = THREE.NearestFilter;
+
+  const rtOptions = {
+    format: THREE.RGBAFormat,
+    type: THREE.UnsignedByteType,
+    magFilter: THREE.NearestFilter,
+    minFilter: THREE.NearestFilter,
+    depthBuffer: false,
+    stencilBuffer: false,
+  };
+  let rtA = new THREE.WebGLRenderTarget(GRID, GRID, rtOptions);
+  let rtB = new THREE.WebGLRenderTarget(GRID, GRID, rtOptions);
+
+  const simScene = new THREE.Scene();
+  const simCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+
+  const simMaterial = new THREE.ShaderMaterial({
+    uniforms: {
+      uState: { value: stateA },
+      uTexel: { value: new THREE.Vector2(1 / GRID, 1 / GRID) },
+      uSeed: { value: new THREE.Vector2(-1, -1) },
+      uSeedRadius: { value: 0.0 },
+      uTick: { value: 0.0 },
+    },
+    vertexShader: `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: `
+      precision highp float;
+      uniform sampler2D uState;
+      uniform vec2 uTexel;
+      uniform vec2 uSeed;
+      uniform float uSeedRadius;
+      uniform float uTick;
+      varying vec2 vUv;
+
+      float alive(vec2 uv) {
+        return step(0.5, texture2D(uState, fract(uv)).r);
+      }
+
+      // cheap hash for a per-cell, per-tick pseudo-random value
+      float hash(vec2 p, float t) {
+        return fract(sin(dot(p, vec2(12.9898, 78.233)) + t * 0.6180339887) * 43758.5453);
+      }
+
+      void main() {
+        float self = alive(vUv);
+        float sum = 0.0;
+        for (int dx = -1; dx <= 1; dx++) {
+          for (int dy = -1; dy <= 1; dy++) {
+            if (dx == 0 && dy == 0) continue;
+            sum += alive(vUv + vec2(float(dx), float(dy)) * uTexel);
+          }
+        }
+        float next = self;
+        if (self > 0.5) {
+          next = (sum == 2.0 || sum == 3.0) ? 1.0 : 0.0;
+        } else {
+          next = (sum == 3.0) ? 1.0 : 0.0;
+        }
+
+        // spontaneous generation: a tiny, steady "cosmic ray" hit rate keeps
+        // the field alive indefinitely instead of dying out to black, the
+        // adaptive-field-state raise from challenger 5 (idle state).
+        if (next < 0.5 && hash(floor(vUv * 400.0), uTick) > 0.9985) {
+          next = 1.0;
+        }
+
+        if (uSeedRadius > 0.0) {
+          float d = distance(vUv, uSeed);
+          if (d < uSeedRadius) next = 1.0;
+        }
+
+        gl_FragColor = vec4(vec3(next), 1.0);
+      }
+    `,
+  });
+
+  const simQuad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), simMaterial);
+  simScene.add(simQuad);
+
+  // --- display: renders the state as glyph-density luminance on a dark ground ---
+  const displayScene = new THREE.Scene();
+  const displayCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+
+  const displayMaterial = new THREE.ShaderMaterial({
+    uniforms: {
+      uState: { value: rtA.texture },
+      uTexel: { value: new THREE.Vector2(1 / GRID, 1 / GRID) },
+      uAccent: { value: new THREE.Vector3(0.35, 0.98, 0.82) },
+      uGround: { value: new THREE.Vector3(0.024, 0.031, 0.055) },
+    },
+    vertexShader: `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: `
+      precision highp float;
+      uniform sampler2D uState;
+      uniform vec2 uTexel;
+      uniform vec3 uAccent;
+      uniform vec3 uGround;
+      varying vec2 vUv;
+
+      void main() {
+        float cell = texture2D(uState, vUv).r;
+
+        // soft glow: a wider falloff kernel so a single live cell reads as a
+        // faint luminous point, not a single hard pixel that compresses away
+        // (raise from challenger 1: aliveness reads as density, not a fill)
+        float glow = 0.0;
+        for (int dx = -2; dx <= 2; dx++) {
+          for (int dy = -2; dy <= 2; dy++) {
+            float d = length(vec2(float(dx), float(dy)));
+            float weight = max(0.0, 1.0 - d / 2.6);
+            glow += texture2D(uState, fract(vUv + vec2(float(dx), float(dy)) * uTexel)).r * weight;
+          }
+        }
+        glow = clamp(glow, 0.0, 1.0);
+        // perceptual boost so sparse, dim points stay visible against the ground
+        float density = pow(glow, 0.5);
+
+        vec3 color = mix(uGround, uAccent, density);
+        gl_FragColor = vec4(color, 1.0);
+      }
+    `,
+  });
+
+  const displayQuad = new THREE.Mesh(
+    new THREE.PlaneGeometry(2, 2),
+    displayMaterial
+  );
+  displayScene.add(displayQuad);
+
+  let tickCount = 0;
+  function step() {
+    tickCount += 1;
+    simMaterial.uniforms.uTick.value = tickCount;
+    renderer.setRenderTarget(rtB);
+    renderer.render(simScene, simCamera);
+    renderer.setRenderTarget(null);
+
+    simMaterial.uniforms.uState.value = rtB.texture;
+    displayMaterial.uniforms.uState.value = rtB.texture;
+
+    const tmp = rtA;
+    rtA = rtB;
+    rtB = tmp;
+  }
+
+  // seed the render targets from the initial DataTexture once
+  renderer.setRenderTarget(rtA);
+  const seedMat = new THREE.MeshBasicMaterial({ map: stateA });
+  const seedQuad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), seedMat);
+  const seedScene = new THREE.Scene();
+  seedScene.add(seedQuad);
+  renderer.render(seedScene, simCamera);
+  renderer.setRenderTarget(null);
+  simMaterial.uniforms.uState.value = rtA.texture;
+  displayMaterial.uniforms.uState.value = rtA.texture;
+
+  function resize() {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    renderer.setSize(w, h, false);
+  }
+  window.addEventListener("resize", resize);
+
+  // cursor perturbation: local seed applied on the next sim step, adaptive
+  // field state (raise from challenger 5): idle / scroll / interaction
+  let pointerNdc: [number, number] | null = null;
+  window.addEventListener(
+    "pointermove",
+    (e) => {
+      pointerNdc = [
+        e.clientX / window.innerWidth,
+        1 - e.clientY / window.innerHeight,
+      ];
+    },
+    { passive: true }
+  );
+
+  let scrollPulse = 0;
+  window.addEventListener(
+    "scroll",
+    () => {
+      scrollPulse = 1;
+    },
+    { passive: true }
+  );
+
+  if (prefersReducedMotion) {
+    // settle the automaton into a static generation and render once — a
+    // designed static fallback, not a disabled canvas.
+    for (let i = 0; i < 40; i++) step();
+    renderer.render(displayScene, displayCamera);
+  } else {
+    let last = 0;
+    const frameInterval = 1000 / 24; // deliberate low tick-rate: it reads as computation, not smoothness
+
+    const tick = (t: number) => {
+      requestAnimationFrame(tick);
+      if (t - last < frameInterval) return;
+      last = t;
+
+      if (pointerNdc) {
+        simMaterial.uniforms.uSeed.value.set(pointerNdc[0], pointerNdc[1]);
+        simMaterial.uniforms.uSeedRadius.value = 0.01;
+      } else {
+        simMaterial.uniforms.uSeedRadius.value = 0.0;
+      }
+
+      if (scrollPulse > 0) {
+        simMaterial.uniforms.uSeedRadius.value = Math.max(
+          simMaterial.uniforms.uSeedRadius.value,
+          0.02
+        );
+        scrollPulse = 0;
+      }
+
+      step();
+      renderer.render(displayScene, displayCamera);
+    };
+    requestAnimationFrame(tick);
+  }
+</script>

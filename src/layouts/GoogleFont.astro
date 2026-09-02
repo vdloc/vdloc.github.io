@@ -51,12 +51,27 @@
     type="font/woff2"
     crossorigin="crossorigin"
   />
+  <link
+    rel="preload"
+    href="/fonts/space-grotesk-v22-vietnamese-regular.woff2"
+    as="font"
+    type="font/woff2"
+    crossorigin="crossorigin"
+  />
+  <link
+    rel="preload"
+    href="/fonts/space-grotesk-v22-vietnamese-700.woff2"
+    as="font"
+    type="font/woff2"
+    crossorigin="crossorigin"
+  />
   <style is:inline>
     /* space-grotesk-regular - latin */
     @font-face {
       font-family: "Space Grotesk";
       font-style: normal;
       font-weight: 400;
+      font-display: swap;
       src: local(""),
         url("/fonts/space-grotesk-v13-latin-regular.woff2") format("woff2"),
         /* Chrome 26+, Opera 23+, Firefox 39+ */
@@ -67,10 +82,31 @@
       font-family: "Space Grotesk";
       font-style: normal;
       font-weight: 700;
+      font-display: swap;
       src: local(""),
         url("/fonts/space-grotesk-v13-latin-700.woff2") format("woff2"),
         /* Chrome 26+, Opera 23+, Firefox 39+ */
           url("/fonts/space-grotesk-v13-latin-700.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+    }
+    /* space-grotesk-regular - vietnamese (ế, đ, ữ, ơ, and friends) */
+    @font-face {
+      font-family: "Space Grotesk";
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url("/fonts/space-grotesk-v22-vietnamese-regular.woff2") format("woff2");
+      unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169,
+        U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;
+    }
+    /* space-grotesk-700 - vietnamese */
+    @font-face {
+      font-family: "Space Grotesk";
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+      src: url("/fonts/space-grotesk-v22-vietnamese-700.woff2") format("woff2");
+      unicode-range: U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169,
+        U+01A0-01A1, U+01AF-01B0, U+1EA0-1EF9, U+20AB;
     }
   </style>
 </Fragment>

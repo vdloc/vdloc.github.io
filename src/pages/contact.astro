@@ -4,32 +4,110 @@ import { SITE_TITLE } from "src/config";
 import PageLayout from "src/layouts/PageLayout.astro";
 ---
 
-<PageLayout>
+<PageLayout forceDark>
   <PageMeta title={`Contact | ${SITE_TITLE}`} slot="meta" />
 
-  <section slot="main" class="mt-6">
+  <section slot="main" class="mt-6 max-w-xl">
+    <h1 class="text-3xl font-bold mb-6 text-text-heading">Get in touch</h1>
     <form
+      id="contact-form"
       action="https://formspree.io/f/mpzgwagn"
       method="POST"
-      class="space-y-4"
+      class="space-y-6"
     >
-      <div class="">
-        <label for="email">Your email:</label>
+      <div>
+        <label
+          for="email"
+          class="block text-sm font-semibold text-text-body mb-1"
+        >
+          Your email
+        </label>
         <input
           type="email"
           name="email"
           id="email"
-          class="block mt-4"
           required
+          class="block w-full bg-transparent border-0 border-b border-text-muted/40 focus:border-text-link outline-none py-2 text-text-body transition-colors duration-150"
         />
       </div>
       <div>
-        <label for="message">Your message:</label>
-        <textarea name="message" id="message" class="block mt-4" required
+        <label
+          for="message"
+          class="block text-sm font-semibold text-text-body mb-1"
+        >
+          Your message
+        </label>
+        <textarea
+          name="message"
+          id="message"
+          required
+          rows="5"
+          class="block w-full bg-transparent border-0 border-b border-text-muted/40 focus:border-text-link outline-none py-2 text-text-body transition-colors duration-150 resize-y"
         ></textarea>
       </div>
-      <!-- your other form fields go here -->
-      <button type="submit" class="mt-4">Send</button>
+      <button
+        type="submit"
+        id="contact-submit"
+        class="unset font-semibold
+            transition-[background-size] duration-300
+            bg-gradient-to-r bg-left-bottom bg-no-repeat
+            bg-[length:100%_2px] hover:bg-[length:100%_55%] dark:hover:bg-[length:100%_2px]
+            from-primary-blue to-primary-blue dark:from-primary-blue dark:to-primary-blue
+            disabled:opacity-50"
+      >
+        Send
+      </button>
     </form>
+    <p id="contact-status" class="mt-4 text-sm" role="status" aria-live="polite"></p>
   </section>
 </PageLayout>
+
+<script>
+  const form = document.getElementById("contact-form") as HTMLFormElement | null;
+  const statusEl = document.getElementById("contact-status") as HTMLElement | null;
+  const submitBtn = document.getElementById(
+    "contact-submit"
+  ) as HTMLButtonElement | null;
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!submitBtn || !statusEl) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending…";
+    statusEl.textContent = "";
+    statusEl.removeAttribute("role");
+    statusEl.className = "mt-4 text-sm";
+
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        body: new FormData(form),
+        headers: { Accept: "application/json" },
+      });
+
+      if (response.ok) {
+        form.hidden = true;
+        statusEl.setAttribute("role", "status");
+        statusEl.className = "mt-4 text-sm text-text-body";
+        statusEl.textContent = "Thanks — I'll get back to you soon.";
+      } else {
+        const data = await response.json().catch(() => null);
+        const message =
+          data?.errors?.map((e: { message: string }) => e.message).join(", ") ||
+          "Something went wrong. Please try again or email me directly.";
+        statusEl.setAttribute("role", "alert");
+        statusEl.className = "mt-4 text-sm text-red-600 dark:text-red-400";
+        statusEl.textContent = message;
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Send";
+      }
+    } catch {
+      statusEl.setAttribute("role", "alert");
+      statusEl.className = "mt-4 text-sm text-red-600 dark:text-red-400";
+      statusEl.textContent = "Network error. Please try again.";
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Send";
+    }
+  });
+</script>
